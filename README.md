@@ -1,6 +1,6 @@
 # Level editor
 
-created for terminal,since i dont know how to make gui
+created for console,since i dont know how to make gui
 
 As of now,produces a grid (10x10)
 
