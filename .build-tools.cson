@@ -1,0 +1,86 @@
+providers: [
+  {
+    key: "bt"
+    config:
+      commands: [
+        {
+          project: "C:\\Users\\Tausif\\Desktop\\projekt\\fling"
+          source: "C:\\Users\\Tausif\\Desktop\\projekt\\fling\\.build-tools.cson"
+          name: "Compile"
+          command: "clang -Wall -std=gnu++11 -c ./source/*.cpp -I./Include"
+          wd: "."
+          env: {}
+          modifier:
+            shell:
+              command: "bash -c"
+          stdout:
+            highlighting: "nh"
+            ansi_option: "ignore"
+          stderr:
+            highlighting: "hc"
+            profile: "gcc_clang"
+          output:
+            console:
+              close_success: true
+              queue_in_buffer: true
+              stdin: true
+            linter:
+              no_trace: false
+          version: 1
+        }
+        {
+          project: "C:\\Users\\Tausif\\Desktop\\projekt\\fling"
+          source: "C:\\Users\\Tausif\\Desktop\\projekt\\fling\\.build-tools.cson"
+          name: "linker(includes compiling)"
+          command: "g++ *.o -o ./bin/furs.exe"
+          wd: "."
+          env: {}
+          modifier:
+            dependency:
+              list: [
+                [
+                  "0"
+                  "0"
+                  "Compile"
+                ]
+              ]
+              abort: true
+            wildcards: {}
+          stdout:
+            highlighting: "nh"
+          stderr:
+            highlighting: "hc"
+            profile: "gcc_clang"
+          output:
+            console:
+              close_success: true
+              queue_in_buffer: true
+          version: 1
+        }
+        {
+          project: "C:\\Users\\Tausif\\Desktop\\projekt\\fling"
+          source: "C:\\Users\\Tausif\\Desktop\\projekt\\fling\\.build-tools.cson"
+          name: "cleaning up"
+          command: "del *.h.gch"
+          wd: "./Include"
+          env: {}
+          modifier:
+            wildcards: {}
+            shell:
+              command: "move ../*.o ../bjects"
+          stdout:
+            highlighting: "nh"
+            ansi_option: "ignore"
+          stderr:
+            highlighting: "nh"
+            ansi_option: "ignore"
+          output:
+            console:
+              close_success: true
+              queue_in_buffer: true
+              stdin: false
+          version: 1
+        }
+      ]
+  }
+]
