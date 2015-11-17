@@ -18,7 +18,7 @@ public:
 
   listfurs(COORD,
 	   unsigned short,
-	   int);
+	   unsigned short);
 
   virtual ~listfurs();
 

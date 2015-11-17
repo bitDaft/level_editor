@@ -1,14 +1,18 @@
 #include "furs.h"
+#include <iostream>
 
+using namespace std;
 
 unsigned int furs::m_furcount = 0;
 
-furs::furs(COORD a, unsigned int x) : color(x)
+furs::furs(COORD a, unsigned short x)
 {
   // ctor
-  cur  = a;
-  prev = cur;
+  cur      = a;
+  prev     = cur;
+  adjCheck = 0;
   m_furcount++;
+  color = x;
 }
 
 furs::~furs()

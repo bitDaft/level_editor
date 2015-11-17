@@ -2,20 +2,21 @@
 #define FURS_H
 
 #include <windows.h>
-
+#include <iostream>
+using namespace std;
 class furs {
 private:
 
   COORD cur, prev;
   char  adjCheck;
-  static unsigned int  m_furcount;
-  const unsigned short color;
+  static unsigned int m_furcount;
+  unsigned short color;
 
 public:
 
   furs();
   furs(COORD,
-       unsigned int);
+       unsigned short);
   virtual ~furs();
 
   COORD getcur()

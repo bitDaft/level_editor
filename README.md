@@ -17,6 +17,7 @@ As of now,produces a grid (10x10)(cannot change size,will figure it out later)
 
 
 ### Task pending
-- implement color for created furs
+- variable size grids
 - able to handle more than one file
 - browse files
+- give definite colors rather than randomized colors  

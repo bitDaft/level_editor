@@ -20,14 +20,17 @@ listfurs* getfur(unsigned int a)
   return op;
 }
 
-listfurs::listfurs(COORD a, unsigned short value, int pt = 0)
+listfurs::listfurs(COORD a, unsigned short value, unsigned short pt)
 {
   srand(time(0));
+  unsigned short x;
 
-  if (!pt) f = new furs(a, (rand() % NO_OF_COLOR) + 1);
+  x = pt ? pt : ((rand() % NO_OF_COLOR) + 1);
+
+  if (!pt) f = new furs(a, x);
   else
   {
-    f = new furs(a, pt);
+    f = new furs(a, x);
   }
 
   Setgridval(value);
@@ -43,20 +46,8 @@ listfurs* getbefore(listfurs *o)
   listfurs *op = _listfurs;
 
   while (o != (op->p)) op = op->p;
-
-  // op->p = o->p;
   return op;
 }
-
-// void listfurs::printfurs()
-// {
-//   listfurs *s = _listfurs;
-
-//   do
-//   { cout << "\n " << s->Getgridval() << " " << s;
-//     cout << " " << s->p;
-//     s = s->getp(); } while (s != NULL);
-// }
 
 listfurs::~listfurs()
 {

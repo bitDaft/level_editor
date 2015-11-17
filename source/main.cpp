@@ -1,6 +1,8 @@
+// header files
 #include "listfurs.h"
 #include "colors.h"
 #include "furs.h"
+
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
@@ -9,12 +11,10 @@
 
 using namespace std;
 
-// unsigned short GRIDSIZE = 10;
-
 // To get grid in ratio of almost square looking it is advised to keep MX=2*MY
 // only change MY ,unless you need specific size grid
 #define MX    (MY * 2)
-#define MY    10 // GRIDSIZE
+#define MY    10 // cell in y-axis
 
 
 void gotoxy(COORD d)
@@ -35,6 +35,7 @@ void initscreen()
   gotoxy({ 0, 0 });
 }
 
+// prints the barebones grid
 void printgrid() {
   uint8_t register i, j;
 
@@ -52,6 +53,7 @@ void printgrid() {
   cout << "+";
 }
 
+// checks input buffer for keystroke
 int hitkey() {
   int x = 0;
 
@@ -63,6 +65,7 @@ int hitkey() {
   return x;
 }
 
+// clears the number of lines of the list section
 void clearlist(COORD pos, int line)
 {
   gotoxy(pos);
@@ -77,6 +80,7 @@ void clearlist(COORD pos, int line)
   cout << "                            ";
 }
 
+// produces the list
 void producelist(COORD pos, listfurs  *top)
 {
   pos.Y += 1;
@@ -104,6 +108,7 @@ void producelist(COORD pos, listfurs  *top)
   }
 }
 
+// the menu ,obvious
 int menu()
 {
   unsigned int dir = 0;
@@ -116,8 +121,7 @@ int menu()
   gotoxy({ 45, y++ }); cout << "|      OPEN LAYOUT      |";
   gotoxy({ 45, y++ }); cout << "|      DELETE LAYOUT    |";
 
-  // gotoxy({ 45, y++ }); cout << "|      GRID SIZE(deprec)|";//deprecated
-  // option
+  // gotoxy({ 45, y++ }); cout << "|      GRID SIZE(deprec)|";
   gotoxy({ 45, y++ }); cout << "|      EXIT             |";
   gotoxy({ 45, y++ }); cout << "+-----------------------+";
   y = 3;
@@ -129,20 +133,26 @@ int menu()
     switch (dir)
     {
     case 72:
-
-      if (y > 3) {
+    {
+      if (y > 3)  {
 	gotoxy({ 50, y }); cout << " "; y--;
       }
       gotoxy({ 50, y });
-      cout << ">"; gotoxy({ 79, 24 }); break;
+      cout << ">";
+      gotoxy({ 79, 24 });
+      break;
+    }
 
     case 80:
-
+    {
       if (y < 6) {
 	gotoxy({ 50, y }); cout << " "; y++;
       }
       gotoxy({ 50, y });
-      cout << ">"; gotoxy({ 79, 24 }); break;
+      cout << ">";
+      gotoxy({ 79, 24 });
+      break;
+    }
     }
   }
   y -= 3;
@@ -153,9 +163,9 @@ void drawbool(bool gr[MY][MX])
 {
   unsigned register int i, j;
 
-  //  listfurs *p;
-  //  furs     *op;
-  //  unsigned short ch;
+  listfurs *p;
+  furs     *op;
+  unsigned short ch;
 
   for (i = 0; i < MY; ++i)
   {
@@ -167,13 +177,13 @@ void drawbool(bool gr[MY][MX])
 
       if (gr[i][j] == true)
       {
-	//	p = &getfur(i * 20 + j);
-	//	op = p->getf();
-	// ch = op->getcolor();
-	//	changecolor(ch);
+	p  = getfur(i * 20 + j);
+	op = p->getf();
+	ch = op->getcolor();
+	changecolor(ch);
 	cout << (char)177;
 
-	//	white;
+	white;
       }
       else cout << " ";
     }
@@ -219,24 +229,26 @@ int main()
 
 
       if (infur.is_open())
-      {  saved     = true;
-	 bckToMenu = false; quit = false;
-	 infur.seekg(0);
-	 infur.read(reinterpret_cast<char *>(grid), sizeof(grid));
-	 drawbool(grid);
-	 infur.read(reinterpret_cast<char *>(&cnt), sizeof(unsigned short));
-	 tcnt = cnt;
-	 furs *tpt, *pt = new furs();
-	 tpt = pt;
+      {
+	saved     = true;
+	bckToMenu = false;
+	quit      = false;
+	infur.seekg(0);
+	infur.read(reinterpret_cast<char *>(grid), sizeof(grid));
+	infur.read(reinterpret_cast<char *>(&cnt), sizeof(unsigned short));
+	tcnt = cnt;
+	furs *tpt, *pt = new furs();
+	tpt = pt;
 
-	 while (tcnt--)
-	 {
-	   infur.read(reinterpret_cast<char *>(&pt),  sizeof(furs));
-	   infur.read(reinterpret_cast<char *>(&cnt), sizeof(cnt));
-	   ptr = new listfurs(pt->getcur(), cnt, pt->getcolor());
-	 }
-	 delete tpt;
-	 infur.close(); }
+	while (tcnt--)
+	{
+	  infur.read(reinterpret_cast<char *>(pt),   sizeof(furs));
+	  infur.read(reinterpret_cast<char *>(&cnt), sizeof(cnt));
+	  ptr = new listfurs(pt->getcur(), cnt, pt->getcolor());
+	}
+	delete tpt;
+	infur.close();
+      }
       else
       {
 	clearlist({ 45, 0 }, 20);
@@ -285,7 +297,7 @@ int main()
 
     if (!quit) {
       if (!bckToMenu) {
-	drawbool(grid);
+	if (ptr) drawbool(grid);
 	producelist({ 45, 1 }, ptr);
       }
     }
@@ -298,8 +310,9 @@ int main()
     {
       if ((ch = hitkey()))
       {
-	switch (ch) {
-	// movement
+	switch (ch)
+	{
+	// movement with arrow key
 	case 72: {
 	  if (d.Y > 1)
 	  { d.Y -= 2; value -= MX; }
@@ -327,10 +340,8 @@ int main()
 	// Enter key
 	case 13:
 	{
-	  saved = false;
-
-	  //  gchanged = true;
 	  bool& t = grid[value / MX][value % MX];
+	  saved = false;
 
 	  if (!t) ptr = new listfurs(d, value, 0);
 	  else
@@ -344,16 +355,20 @@ int main()
 	  drawbool(grid);
 	  producelist({ 45, 1 }, ptr);
 	  gotoxy(d);
-
 	  break;
 	}
 
-	case 98: { // 98 = 'b'
+	// 'b' key
+	case 98:
+	{
 	  bckToMenu = true;
 	  char x = 0;
 
-	  if (saved) { deleteall();
-		       ptr = NULL; break; }
+	  if (saved)
+	  {
+	    deleteall();
+	    ptr = NULL; break;
+	  }
 	  else
 	  {
 	    clearlist({ 45, 0 }, 20);
@@ -363,27 +378,36 @@ int main()
 
 	    while ((x != 'n') && (x != 'y')) x = hitkey();
 
-	    if ((x == 'n') || (x == 'N')) { deleteall(); ptr = NULL; break; }
+	    if ((x == 'n') || (x == 'N')) {
+	      deleteall();
+	      ptr = NULL;
+	      break;
+	    }
 	  }
 	}
 
+	// 's' key..quite obvious ,isnt it
 	case 's':
 	{
 	  if (!saved)
 	  {
-	    ofstream outfur("grid.dat",
-			    ios::binary | ios::out | ios::trunc);
+	    fstream outfur("grid.dat",
+			   ios::binary | ios::in | ios::out | ios::trunc);
 
 	    if (outfur.is_open())
 	    {
 	      listfurs *t = NULL, *temp = ptr;
-	      furs     *pt;
+	      furs     *pt, *tpt = new furs(), *ttpt = tpt;
+	      unsigned short sp;
 
-	      if (ptr) pt = temp->getf(); else pt = NULL;
-	      outfur.write(reinterpret_cast<char *>(grid),
-			   sizeof(grid));
-	      unsigned short sp = temp->getcount();
-	      outfur.write(reinterpret_cast<char *>(&sp), sizeof(sp));
+	      if (ptr) pt = temp->getf();
+	      else pt = NULL;
+
+	      if (ptr) sp = temp->getcount();
+	      else sp = 0;
+
+	      outfur.write(reinterpret_cast<char *>(grid), sizeof(grid));
+	      outfur.write(reinterpret_cast<char *>(&sp),  sizeof(sp));
 
 	      while (t != ptr)
 	      {
@@ -398,21 +422,29 @@ int main()
 		t = temp;
 	      }
 	      outfur.close();
+	      delete ttpt;
 	    }
 
-	    if (bckToMenu) {
+	    if (bckToMenu)
+	    {
 	      deleteall();
 	      ptr = NULL;
 	    }
 	    saved = true;
-
-	    //  gchanged = false;
 	  } break;
 	}
 	}
+
+	// end of switch
 	gotoxy(d);
       }
+
+      // end of if hitkey()
     }
+
+    // end of while
   } while (!quit);
+
+  // end of program loop
   return 0;
 }
