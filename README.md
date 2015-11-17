@@ -1,20 +1,22 @@
-# Level editor
+ Furs Level editor
+==============
 
-created for terminal,since i dont know how to make gui
+A level editor for as of yet uncreated game ,Furs.
 
-As of now,produces a grid (10x10)
+Created for terminal,  
+since i dont know how to make gui,  
+and it is easier on the shell
 
-->arrow keys to navigate<br>
-->enter to toggle between create/destroy of object in grid cell.<br>
-->objects are accessed and modified through custom linked list.<br>
-->creating new object appends it to end of linked list.<br>
-->shows a list of cell values,their address,and next cell they point to.<br>
-#TODO
 
-->create menu<br>
-<ul>
-	<li>new level layout</li>
-	<li>open and edit saved layout</li>
-	<li>delete saved layout</li>
-	<li>exit</li>
-</ul>
+As of now,produces a grid (10x10)(cannot change size,will figure it out later)
+
+ **arrow keys to navigate**    
+ **Enter to toggle between create/destroy of object in grid cell**  
+ **shows a list of cell values,their address,
+ and next cell address they point to  **  
+
+
+### Task pending
+- implement color for created furs
+- able to handle more than one file
+- browse files

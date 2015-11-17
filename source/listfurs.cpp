@@ -12,27 +12,26 @@ listfurs *_listfurs              = NULL;
 bool      listfurs::puredelete   = false;
 unsigned int listfurs::listCount = 0;
 
-listfurs& getfur(unsigned int a)
+listfurs* getfur(unsigned int a)
 {
   listfurs *op = _listfurs;
+
   while (a != op->m_gridval) op = op->p;
-cout<<op->Getgridval();
-cin.ignore();
-  return *op;
+  return op;
 }
 
-
-listfurs::listfurs(COORD a, unsigned short value,int pt=0)
+listfurs::listfurs(COORD a, unsigned short value, int pt = 0)
 {
   srand(time(0));
-  if(!pt)
-  f = new furs(a, (rand() % NO_OF_COLOR)+1);
-else
-{
-  f=new furs(a,pt);
-}
 
-Setgridval(value);
+  if (!pt) f = new furs(a, (rand() % NO_OF_COLOR) + 1);
+  else
+  {
+    f = new furs(a, pt);
+  }
+
+  Setgridval(value);
+
   if (!_listfurs) p = NULL;
   else p = _listfurs;
   _listfurs = this;
@@ -44,7 +43,8 @@ listfurs* getbefore(listfurs *o)
   listfurs *op = _listfurs;
 
   while (o != (op->p)) op = op->p;
-  //op->p = o->p;
+
+  // op->p = o->p;
   return op;
 }
 
@@ -70,9 +70,9 @@ listfurs::~listfurs()
     delete f;
 
     if (this != _listfurs) {
-      tp=getbefore(this); 
-      tp->p=p;
-      p = NULL;
+      tp    = getbefore(this);
+      tp->p = p;
+      p     = NULL;
     }
     else {
       _listfurs = _listfurs->p; p = NULL;

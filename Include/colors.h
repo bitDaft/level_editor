@@ -60,17 +60,21 @@
 
 void changecolor(unsigned short a)
 {
-	switch(a)
-	{
-		case 1:blue;break;
-		case 2:red;break;
-		case 3:lgreen;break;
-		case 4:pink;break;
-		case 5:yellow;break;
-		case 6:lblue;break;
-	}
-}
+  switch (a)
+  {
+  case 1: blue; break;
 
+  case 2: red; break;
+
+  case 3: lgreen; break;
+
+  case 4: pink; break;
+
+  case 5: yellow; break;
+
+  case 6: lblue; break;
+  }
+}
 
 #endif // ifndef COLORS_H
 // keywords in comments

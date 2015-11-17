@@ -10,21 +10,23 @@ private:
   furs *f;
   listfurs *p;
   unsigned short m_gridval;
-  static bool  puredelete;
+  static bool    puredelete;
   static unsigned int listCount;
   friend listfurs* getbefore(listfurs *);
 
 public:
 
-  listfurs(COORD, unsigned short,int);
+  listfurs(COORD,
+	   unsigned short,
+	   int);
 
   virtual ~listfurs();
 
   void             printfurs();
-  friend listfurs& getfur(unsigned int);
+  friend listfurs* getfur(unsigned int);
   friend void      deleteall();
 
-  unsigned short Getgridval()
+  unsigned short   Getgridval()
   {
     return m_gridval;
   }
@@ -55,6 +57,6 @@ public:
   }
 };
 void      deleteall();
-listfurs& getfur(unsigned int);
+listfurs* getfur(unsigned int);
 
 #endif // LISTFURS_H

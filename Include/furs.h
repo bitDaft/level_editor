@@ -13,18 +13,19 @@ private:
 
 public:
 
-furs();
-  furs(COORD,unsigned int);
+  furs();
+  furs(COORD,
+       unsigned int);
   virtual ~furs();
 
   COORD getcur()
   {
     return cur;
   }
-  
+
   void Setcur(COORD a)
   {
-    cur=a;
+    cur = a;
   }
 
   unsigned short getcolor()
