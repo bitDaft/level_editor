@@ -8,70 +8,87 @@
 
 using namespace std;
 
-listfurs *_listfurs            = NULL;
-bool      listfurs::puredelete = false;
+listfurs *_listfurs              = NULL;
+bool      listfurs::puredelete   = false;
+unsigned int listfurs::listCount = 0;
 
-listfurs* getfur(unsigned int a)
+listfurs& getfur(unsigned int a)
 {
   listfurs *op = _listfurs;
-
   while (a != op->m_gridval) op = op->p;
-  return op;
+cout<<op->Getgridval();
+cin.ignore();
+  return *op;
 }
 
-listfurs::listfurs(COORD a, unsigned int value)
+
+listfurs::listfurs(COORD a, unsigned short value,int pt=0)
 {
   srand(time(0));
-  f = new furs(a, rand() % NO_OF_COLOR);
-  Setgridval(value);
+  if(!pt)
+  f = new furs(a, (rand() % NO_OF_COLOR)+1);
+else
+{
+  f=new furs(a,pt);
+}
 
+Setgridval(value);
   if (!_listfurs) p = NULL;
   else p = _listfurs;
   _listfurs = this;
+  listCount++;
 }
 
-void getbefore(listfurs *o)
+listfurs* getbefore(listfurs *o)
 {
   listfurs *op = _listfurs;
 
   while (o != (op->p)) op = op->p;
-  op->p = o->p;
+  //op->p = o->p;
+  return op;
 }
 
-void listfurs::printfurs()
-{
-  listfurs *s = _listfurs;
+// void listfurs::printfurs()
+// {
+//   listfurs *s = _listfurs;
 
-  do
-  { cout << "\n " << s->Getgridval() << " " << s;
-    cout << " " << s->p;
-    s = s->getp(); } while (s != NULL);
-}
+//   do
+//   { cout << "\n " << s->Getgridval() << " " << s;
+//     cout << " " << s->p;
+//     s = s->getp(); } while (s != NULL);
+// }
 
 listfurs::~listfurs()
 {
-  if (puredelete)
-  { delete f;
+  if (puredelete) {
+    delete f;
     m_gridval = -1;
-    p         = NULL; }
-  else
-  { delete f;
+    p         = NULL;
+  }
+  else {
+    listfurs *tp;
+    delete f;
 
-    if (this != _listfurs)
-    { getbefore(this); p = NULL; }
-    else if (p)
-    { _listfurs = _listfurs->p; p = NULL; }
-    else _listfurs = NULL;
-    m_gridval = -1; }
+    if (this != _listfurs) {
+      tp=getbefore(this); 
+      tp->p=p;
+      p = NULL;
+    }
+    else {
+      _listfurs = _listfurs->p; p = NULL;
+    }
+    m_gridval = -1;
+  }
+  listCount--;
 }
 
 void deleteall()
 {
   listfurs::puredelete = true;
-  listfurs *in, *p = _listfurs;
+  listfurs *in, *pt = _listfurs;
 
-  while (p != NULL)
-  { in = p; p = in->p; delete in; }
+  while (pt != NULL)
+  { in = pt; pt = pt->p; delete in; }
   _listfurs            = NULL;
   listfurs::puredelete = false;
 }
