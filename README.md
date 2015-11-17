@@ -1,11 +1,11 @@
  Furs Level editor
 ==============
 
-<<<<<<< HEAD
+
 A level editor for as of yet uncreated game ,Furs.
 =======
 created for console,since i dont know how to make gui
->>>>>>> 22e26717319742d80e267d8ecf2e9f2308e37131
+
 
 Created for terminal,  
 since i dont know how to make gui,  
