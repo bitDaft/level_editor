@@ -14,4 +14,11 @@ furs::furs(COORD a, unsigned int x) : color(x)
 furs::~furs()
 {
   // dtor
+	cur=prev={0,0};
+	adjCheck=0;
+	m_furcount--;
+}
+furs::furs():color(0)
+{
+
 }
