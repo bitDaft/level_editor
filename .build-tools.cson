@@ -4,11 +4,58 @@ providers: [
     config:
       commands: [
         {
-          project: "C:\\Users\\Tausif\\Desktop\\projekt\\fling"
-          source: "C:\\Users\\Tausif\\Desktop\\projekt\\fling\\.build-tools.cson"
-          name: "Compile"
-          command: "clang -Wall -std=gnu++11 -c ./source/*.cpp -I./Include"
+          project: "C:\\Users\\Tausif\\Desktop\\projekt\\fling_level_editor"
+          source: "C:\\Users\\Tausif\\Desktop\\projekt\\fling_level_editor\\.build-tools.cson"
+          name: "build all"
+          command: "echo Done"
           wd: "."
+          env: {}
+          modifier:
+            wildcards: {}
+            dependency:
+              list: [
+                [
+                  "1"
+                  "0"
+                  "Compile"
+                ]
+                [
+                  "1"
+                  "1"
+                  "linker"
+                ]
+                [
+                  "1"
+                  "2"
+                  "cleaning up"
+                ]
+              ]
+              abort: true
+          stdout:
+            highlighting: "nh"
+            ansi_option: "ignore"
+          stderr:
+            highlighting: "nh"
+            ansi_option: "ignore"
+          output:
+            console:
+              close_success: true
+              queue_in_buffer: true
+              stdin: false
+          version: 1
+        }
+      ]
+  }
+  {
+    key: "bt"
+    config:
+      commands: [
+        {
+          project: "C:\\Users\\Tausif\\Desktop\\projekt\\fling_level_editor"
+          source: "C:\\Users\\Tausif\\Desktop\\projekt\\fling_level_editor\\.build-tools.cson"
+          name: "Compile"
+          command: "g++ -Wall -std=gnu++11 -c ../source/*.cpp -I../Include "
+          wd: "./object"
           env: {}
           modifier:
             shell:
@@ -23,31 +70,23 @@ providers: [
             console:
               close_success: true
               queue_in_buffer: true
-              stdin: true
-            linter:
-              no_trace: false
+              stdin: false
           version: 1
         }
         {
-          project: "C:\\Users\\Tausif\\Desktop\\projekt\\fling"
-          source: "C:\\Users\\Tausif\\Desktop\\projekt\\fling\\.build-tools.cson"
-          name: "linker(includes compiling)"
-          command: "g++ *.o -o ./bin/furs.exe"
-          wd: "."
+          project: "C:\\Users\\Tausif\\Desktop\\projekt\\fling_level_editor"
+          source: "C:\\Users\\Tausif\\Desktop\\projekt\\fling_level_editor\\.build-tools.cson"
+          name: "linker"
+          command: "g++ *.o -o ../bin/furslvleditor.exe"
+          wd: "./object"
           env: {}
           modifier:
-            dependency:
-              list: [
-                [
-                  "0"
-                  "0"
-                  "Compile"
-                ]
-              ]
-              abort: true
             wildcards: {}
+            shell:
+              command: "bash -c"
           stdout:
             highlighting: "nh"
+            ansi_option: "ignore"
           stderr:
             highlighting: "hc"
             profile: "gcc_clang"
@@ -55,30 +94,25 @@ providers: [
             console:
               close_success: true
               queue_in_buffer: true
+              stdin: false
           version: 1
         }
         {
-          project: "C:\\Users\\Tausif\\Desktop\\projekt\\fling"
-          source: "C:\\Users\\Tausif\\Desktop\\projekt\\fling\\.build-tools.cson"
+          project: "C:\\Users\\Tausif\\Desktop\\projekt\\fling_level_editor"
+          source: "C:\\Users\\Tausif\\Desktop\\projekt\\fling_level_editor\\.build-tools.cson"
           name: "cleaning up"
           command: "del *.h.gch"
           wd: "./Include"
           env: {}
           modifier:
             wildcards: {}
-            shell:
-              command: "move ../*.o ../bjects"
           stdout:
             highlighting: "nh"
             ansi_option: "ignore"
           stderr:
             highlighting: "nh"
             ansi_option: "ignore"
-          output:
-            console:
-              close_success: true
-              queue_in_buffer: true
-              stdin: false
+          output: {}
           version: 1
         }
       ]
