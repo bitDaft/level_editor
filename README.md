@@ -7,11 +7,6 @@ A level editor for as of yet uncreated game ,Furs.
 created for console,since i dont know how to make gui
 
 
-Created for terminal,  
-since i dont know how to make gui,  
-and it is easier on the shell
-
-
 As of now,produces a grid (10x10)(cannot change size,will figure it out later)
 
  **arrow keys to navigate**    
